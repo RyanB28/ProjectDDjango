@@ -22,8 +22,8 @@ def UserLogin(request):
                 login(request, user)
                 return DashboardViews.home(request)
             else:
-                return render(request, 'LoginScreen/login.html', {form: form, 'title':'Login'})
+                return render(request, 'loginscreen/login.html', {form: form, 'title':'Login'})
         else:
             # If there were errors, we render the form with these
             # errors
-            return render(request, 'LoginScreen/login.html', {'form': form, 'title':'Login'}) 
+            return render(request, 'loginscreen/login.html', {'form': form, 'title':'Login'}) 
