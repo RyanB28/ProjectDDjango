@@ -20,7 +20,7 @@
         <div class="container">
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto pl-2">
-              <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
+              <a class="nav-item nav-link" href="{% url 'blog-home' %}">Politie informatie systeem</a>
             </div>
                         <div class="navbar-nav pr-2">
                 {% if user.is_authenticated %}
@@ -29,8 +29,11 @@
                     <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
                 {% else %}
                     <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                    <a class="nav-item nav-link" href="{% url 'register-users' %}">Register</a>
+                    <!-- <a class="nav-item nav-link" href="{% url 'register-users' %}">Register</a> -->
                 {% endif %}
+                {% if user.is_superuser %}
+                    <a class="nav-item nav-link" href="{% url 'admin:index' %}">Gebruikers Dashboard</a>
+                {% endif%}
             </div>
           </div>
         </div>
