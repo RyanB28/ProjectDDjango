@@ -40,3 +40,6 @@ urlpatterns = [
     path('search/', users_views.SearchView, name='search'),
     path('', include('blog.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
