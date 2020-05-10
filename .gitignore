@@ -1,6 +1,5 @@
 
 *.pyc
-*.html
 .DS_Store
 LoginScreen/.DS_Store
 LoginScreen/static/.DS_Store
