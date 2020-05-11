@@ -19,10 +19,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from users import views as users_views
+from users import classes as overrideclasses
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', auth_views.LoginView
+    path('login/', overrideclasses.OverrideLogin
          .as_view(template_name='users/login.html'), name='login'),  # class based views (
     # without templates
     # tho)
