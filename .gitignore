@@ -32,7 +32,6 @@ db.sqlite3
 *.iws /out/ 
 
 # Python # 
-*.py[cod] 
 *$py.class 
 
 # Distribution / packaging 
