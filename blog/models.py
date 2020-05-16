@@ -11,7 +11,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.content[:5]
+        return self.author.username + ": " + self.content
 
     @property
     def number_of_comments(self):

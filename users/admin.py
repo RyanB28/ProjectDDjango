@@ -6,4 +6,4 @@ admin.AdminSite.site_title = "Administratie systeem"
 admin.AdminSite.index_title = "Administratie"
 
 admin.site.register(Profile)
-admin.site.register(Follow)
+# admin.site.register(Follow)
