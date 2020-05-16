@@ -23,3 +23,6 @@ class Comment(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     post_connected = models.ForeignKey(Post, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.author.username + ": " + self.content

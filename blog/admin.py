@@ -5,6 +5,9 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('author', 'content', )
     list_filter = ['date_posted']
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('author', 'content', )
+    list_filter = ['date_posted']
 
 admin.site.register(Post, PostAdmin)
-admin.site.register(Comment)
+admin.site.register(Comment, CommentAdmin)
