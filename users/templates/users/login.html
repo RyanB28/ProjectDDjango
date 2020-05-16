@@ -1,23 +1,39 @@
-{% extends "blog/base.html" %}
-{% load crispy_forms_tags %}
+{% extends 'users/base.html' %}
+
 {% block content %}
-<div class="container">
-    <form method="POST" class="col-12 col-md-6 pl-3 pr-3 pl-md-0 pr-md-0">
+    <h3 class="login-heading mb-4 font-weight-bold" >Welkom terug!</h3>
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    {{ error|escape }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ error|escape }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form action="" method="POST">
         {% csrf_token %}
-        <fieldset class="form-group">
-            <legend class="mb-3 white-important">
-                Login
-            </legend>
-            {{ form | crispy }}
-        </fieldset>
-        <div class="form-group">
-            <button class="btn btn-outline-primary" type="submit">Login</button>
+        <div class="form-label-group">
+                {{ form.username }}
+            <label for="inputEmail">Gebruikersnaam</label>
+            </div>
+            <div class="form-label-group">
+                {{ form.password }}
+            <label for="inputPassword">Wachtwoord</label>
+            </div>
+            <div class="custom-control custom-checkbox mb-3">
+                {{ form.remember_me }}
+            <label class="custom-control-label" for="customCheck1">Wachtwoord onthouden</label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit" href="#">Login</button>
+            <div class="text-center">
+            <a class="small" href="password-reset/">Wachtwoord vergeten?</a>
         </div>
     </form>
-    <div class="pt-3">
-        <!-- <small class="text-muted">
-            Do you need an account? <a class="ml-2" href="{% url 'register-users' %}">Sign up</a>
-        </small> -->
-    </div>
-</div>
-{% endblock content %}
+{% endblock %}
