@@ -7,7 +7,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Count
 from .forms import NewCommentForm
-
+from .forms import NewPostForm
 
 def is_users(post_user, logged_user):
     return post_user == logged_user
@@ -125,7 +125,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['content']
+    fields = ['content', 'categorie']
     template_name = 'blog/post_new.html'
     success_url = '/'
 
@@ -137,6 +137,8 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         data = super().get_context_data(**kwargs)
         data['tag_line'] = 'Add a new post'
         return data
+
+        return self.get(self, request, *args, **kwargs)
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
