@@ -7,6 +7,7 @@ from django.urls import reverse
 
 class Post(models.Model):
     content = models.TextField(max_length=1000)
+    categorie = models.TextField(max_length=100)
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
