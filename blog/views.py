@@ -8,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Count
 from .forms import NewCommentForm
 from .forms import NewPostForm
+from taggit.models import Tag
+
 
 def is_users(post_user, logged_user):
     return post_user == logged_user
@@ -125,7 +127,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['content', 'categorie']
+    fields = ['content','tags']
     template_name = 'blog/post_new.html'
     success_url = '/'
 
@@ -135,7 +137,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['tag_line'] = 'Add a new post'
+        data['tag_line'] = 'Plaats een nieuwe post'
         return data
 
         return self.get(self, request, *args, **kwargs)
@@ -143,7 +145,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['content']
+    fields = ['content', 'tags']
     template_name = 'blog/post_new.html'
     success_url = '/'
 
@@ -156,7 +158,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['tag_line'] = 'Edit a post'
+        data['tag_line'] = 'Wijzig een post'
         return data
 
 

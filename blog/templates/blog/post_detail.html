@@ -24,7 +24,7 @@
                    {% if post.author == user %}
                         <a class="material-icons ml-2"
                            style="font-size: 14px"
-                                href="{% url 'post-delete' post.id %}">clear</a>
+                                href="{% url 'post-delete' post.id %}">verwijder</a>
                         <a class="material-icons ml-2"
                            style="font-size: 14px"
                                 href="{% url 'post-update' post.id %}">update</a>
@@ -38,10 +38,13 @@
                 <p>
                     {{ post.content }}
                 </p>
+                <p>
+                    {{ post.tags }}
+                </p>
 
                 <small
                     class="white-important d-flex full-width flex-row-reverse">
-                    {{ post.date_posted | date:"H:i l, d.m.y" }}
+                    {{ post.date_posted | date:"H:i l, d-m-y" }}
                 </small>
             </a>
         </div>
@@ -77,7 +80,7 @@
 
                     <small
                         class="white-important d-flex full-width flex-row-reverse">
-                        {{ comment.date_posted | date:"H:i l, d.m.y" }}
+                        {{ comment.date_posted | date:"H:i l, d-m-y" }}
                     </small>
                 </a>
             </div>
@@ -87,7 +90,7 @@
         {% if user is not None %}
             <div class="col-12 col-md-6 pl-0 pl-md-3 pr-3">
                 <h3 class="white-important mb-3">
-                    Add a comment
+                    Plaats een comment
                 </h3>
                 <form method="POST">
                     {% csrf_token %}
@@ -95,7 +98,7 @@
                         {{ form | crispy }}
                     </fieldset>
                     <div class="form-group">
-                        <button class="btn btn-outline-primary" type="submit">Submit comment</button>
+                        <button class="btn btn-outline-primary" type="submit">Plaats comment</button>
                     </div>
                 </form>
             </div>
