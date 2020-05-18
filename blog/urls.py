@@ -8,6 +8,7 @@ from .views import (
     UserPostListView,
     FollowsListView,
     FollowersListView)
+from blog.views import ImportantPostCreateView
 
 urlpatterns = [
     path('', PostListView.as_view(), name='blog-home'),
@@ -18,4 +19,5 @@ urlpatterns = [
     path('post/<int:pk>/del/', PostDeleteView.as_view(), name='post-delete'),
     path('user/<str:username>/follows', FollowsListView.as_view(), name='user-follows'),
     path('user/<str:username>/followers', FollowersListView.as_view(), name='user-followers'),
+    path('importantpost/new', ImportantPostCreateView.as_view(), name='import-post'),
 ]

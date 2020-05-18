@@ -30,6 +30,7 @@
                     <a class="nav-item nav-link" href="{% url 'post-create' %}">Maak een post</a>
                     <a class="nav-item nav-link" href="{% url 'profile' %}">Instellingen</a>
                     {% if user.is_superuser %}
+                    <a class="nav-item nav-link" href="{% url 'import-post' %}">Maak een belangrijk bericht</a>
                       <a class="nav-item nav-link" href="{% url 'admin:index' %}">Administratie</a>
                     {% endif%}
                     <a class="nav-item nav-link" href="{% url 'logout' %}">Uitloggen</a>

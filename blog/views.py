@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from blog.models import Post, Comment
+from blog.models import Belangrijkbericht, Comment, Post
 from users.models import Follow, Profile
 import sys
 from django.contrib.auth.models import User
@@ -142,6 +142,22 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
         return self.get(self, request, *args, **kwargs)
 
+class ImportantPostCreateView(LoginRequiredMixin, CreateView):
+    model = Belangrijkbericht
+    fields = ['content','tags']
+    template_name = 'blog/post_important.html'
+    success_url = '/'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['tag_line'] = 'Plaats een nieuwe post'
+        return data
+
+        return self.get(self, request, *args, **kwargs)
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
