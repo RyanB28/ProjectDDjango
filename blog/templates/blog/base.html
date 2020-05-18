@@ -28,7 +28,7 @@
                         <div class="navbar-nav pr-2">
                 {% if user.is_authenticated %}
                     <a class="nav-item nav-link" href="{% url 'post-create' %}">Maak een post</a>
-                    <a class="nav-item nav-link" href="{% url 'profile' %}">Settings</a>
+                    <a class="nav-item nav-link" href="{% url 'profile' %}">Instellingen</a>
                     {% if user.is_superuser %}
                       <a class="nav-item nav-link" href="{% url 'admin:index' %}">Administratie</a>
                     {% endif%}
