@@ -6,13 +6,15 @@ from taggit.managers import TaggableManager
 
 
 class Post(models.Model):
+    title = models.CharField(max_length=250)
     content = models.TextField(max_length=1000)
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    slug = models.SlugField(unique=True, max_length=100)
     tags = TaggableManager()
 
     def __str__(self):
-        return self.author.username + ": " + self.content
+        return self.author.username + ": " + self.title +self.content
 
     @property
     def number_of_comments(self):
