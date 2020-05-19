@@ -54,7 +54,12 @@ class TagListView(LoginRequiredMixin, ListView):
     ordering = ['-date_posted']
     paginate_by = PAGINATION_COUNT
 
+    def visible_tags(self):
+        return get_object_or_404(Tag, slug=self.kwargs.get('slug'))
+
     def get_context_data(self, **kwargs):
+        visible_tags = self.visible_tags()
+
         data = super().get_context_data(**kwargs)
 
         all_users = []
@@ -66,15 +71,12 @@ class TagListView(LoginRequiredMixin, ListView):
             all_users.append(User.objects.filter(pk=aux['author']).first())
 
         data['all_users'] = all_users
+        data['tags'] = visible_tags
         print(all_users, file=sys.stderr)
         return data
 
     def get_queryset(self):
-        tag = get_object_or_404(Tag)
-        qs = Post.objects.filter(tags=tag)
-        tags = [tag]
-        for obj in qs:
-            tags.append(obj.tags)
+        tag = self.visible_tags()
         return Post.objects.filter(tags=tag).order_by('-date_posted')
 
 class UserPostListView(LoginRequiredMixin, ListView):
