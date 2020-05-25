@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, GroupForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -47,3 +47,15 @@ def SearchView(request):
             'results':results
         }
         return render(request, 'users/search_result.html', context)
+
+@login_required
+def group(request):
+    if request.method == 'POST':
+        gform = GroupForm(request.POST)
+
+        if gform.is_valid():
+            gform.save()
+            messages.success(request, f'Groep is aangemaakt')
+            return redirect('groups')
+
+    return render(request, 'users/groups.html', {'gform': gform})
