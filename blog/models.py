@@ -6,6 +6,7 @@ from taggit.managers import TaggableManager
 
 
 class Post(models.Model):
+    title = models.CharField(max_length=250)
     content = models.TextField(max_length=1000)
     categorie = models.TextField(max_length=100)
     date_posted = models.DateTimeField(default=timezone.now)
@@ -13,7 +14,7 @@ class Post(models.Model):
     tags = TaggableManager()
 
     def __str__(self):
-        return self.author.username + ": " + self.content
+        return self.author.username + ": " + self.title +self.content
 
     @property
     def number_of_comments(self):
