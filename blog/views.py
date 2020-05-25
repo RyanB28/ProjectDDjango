@@ -7,7 +7,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Count
 from .forms import NewCommentForm
-from .forms import NewPostForm
+from taggit.models import Tag
+
 
 def is_users(post_user, logged_user):
     return post_user == logged_user
@@ -46,6 +47,37 @@ class PostListView(LoginRequiredMixin, ListView):
             follows.append(obj.follow_user)
         return Post.objects.filter(author__in=follows).order_by('-date_posted')
 
+class TagListView(LoginRequiredMixin, ListView):
+    model = Post
+    template_name = 'blog/home.html'
+    context_object_name = 'posts'
+    ordering = ['-date_posted']
+    paginate_by = PAGINATION_COUNT
+
+    def visible_tags(self):
+        return get_object_or_404(Tag, slug=self.kwargs.get('slug'))
+
+    def get_context_data(self, **kwargs):
+        visible_tags = self.visible_tags()
+
+        data = super().get_context_data(**kwargs)
+
+        all_users = []
+        data_counter = Post.objects.values('author')\
+            .annotate(author_count=Count('author'))\
+            .order_by('-author_count')[:6]
+
+        for aux in data_counter:
+            all_users.append(User.objects.filter(pk=aux['author']).first())
+
+        data['all_users'] = all_users
+        data['tags'] = visible_tags
+        print(all_users, file=sys.stderr)
+        return data
+
+    def get_queryset(self):
+        tag = self.visible_tags()
+        return Post.objects.filter(tags=tag).order_by('-date_posted')
 
 class UserPostListView(LoginRequiredMixin, ListView):
     model = Post
@@ -125,7 +157,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['content', 'categorie']
+    fields = ['title', 'content', 'tags']
     template_name = 'blog/post_new.html'
     success_url = '/'
 
@@ -135,7 +167,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['tag_line'] = 'Add a new post'
+        data['tag_line'] = 'Plaats een nieuwe post'
         return data
 
         return self.get(self, request, *args, **kwargs)
@@ -143,7 +175,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['content']
+    fields = ['title', 'content', 'tags']
     template_name = 'blog/post_new.html'
     success_url = '/'
 
@@ -156,7 +188,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['tag_line'] = 'Edit a post'
+        data['tag_line'] = 'Wijzig een post'
         return data
 
 
@@ -194,4 +226,3 @@ class FollowersListView(ListView):
         data = super().get_context_data(**kwargs)
         data['follow'] = 'followers'
         return data
-
