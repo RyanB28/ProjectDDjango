@@ -39,6 +39,7 @@ urlpatterns = [
     path('register/', users_views.register, name='register-users'),
     path('profile/', users_views.profile, name='profile'),
     path('search/', users_views.SearchView, name='search'),
+    path('WebHooks/', include('WebHooks.urls')),
     path('', include('blog.urls')),
 ]
 
