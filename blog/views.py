@@ -148,6 +148,9 @@ class ImportantPostCreateView(LoginRequiredMixin, CreateView):
     template_name = 'blog/post_important.html'
     success_url = '/'
 
+    def view_message(request):
+            return render (request, "post_important.html")
+
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
