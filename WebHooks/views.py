@@ -2,17 +2,19 @@ from django.shortcuts import render
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+
+IntentFulfilmentText = {
+    "DjangoTest" : ["Dit is vanuit 1", "This is a test"], 
+    "DjangoTest2" : ["Dit is vanuit 2", "This is a test"],
+    }
 
 # Create your views here.
-
 @csrf_exempt
 def TestRepsonse(request):
-    return JsonResponse({'fulfillmentText': 'This is Django test response from webhook.'}, safe=False)
-    # # build a request object
-    # req = json.loads(request.body)
-    # # get action from json
-    # action = req.get('queryResult').get('action')
-    # # return a fulfillment message
-    # fulfillmentText = {'fulfillmentText': 'This is Django test response from webhook.'}
-    # # return response
-    # return JsonResponse(fulfillmentText, safe=False)
+    req = json.loads(request.body)
+    IntentName = req["queryResult"]["intent"]["displayName"]
+    FulfilmentText = IntentFulfilmentText[IntentName][0]
+    print(IntentName, FulfilmentText)
+    return JsonResponse({"fulfillmentText": FulfilmentText}, safe=False)
