@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Count
 from .forms import NewCommentForm
 from .forms import NewPostForm
+from .forms import ImportantForm
 from taggit.models import Tag
 
 
@@ -140,7 +141,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         data['tag_line'] = 'Plaats een nieuwe post'
         return data
 
-        return self.get(self, request, *args, **kwargs)
 
 class ImportantPostCreateView(LoginRequiredMixin, CreateView):
     model = Belangrijkbericht
@@ -148,7 +148,7 @@ class ImportantPostCreateView(LoginRequiredMixin, CreateView):
     template_name = 'blog/post_important.html'
     success_url = '/'
 
-    def view_message(request):
+    def view_message(self, request):
             return render (request, "post_important.html")
 
     def form_valid(self, form):
@@ -157,10 +157,38 @@ class ImportantPostCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['tag_line'] = 'Plaats een nieuwe post'
+        data['tag_line'] = 'Plaats een belangrijk bericht'
         return data
 
-        return self.get(self, request, *args, **kwargs)
+class ImportantListView(LoginRequiredMixin, ListView):
+    model = Belangrijkbericht
+    template_name = 'blog/home.html'
+    context_object_name = 'belangrijkeberichten'
+    ordering = ['-date_posted']
+    paginate_by = PAGINATION_COUNT
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+
+        all_users = []
+        data_counter = Post.objects.values('author')\
+            .annotate(author_count=Count('author'))\
+            .order_by('-author_count')[:6]
+
+        for aux in data_counter:
+            all_users.append(User.objects.filter(pk=aux['author']).first())
+
+        data['all_users'] = all_users
+        print(all_users, file=sys.stderr)
+        return data
+
+    def get_queryset(self):
+        user = self.request.user
+        qs = Follow.objects.filter(user=user)
+        follows = [user]
+        for obj in qs:
+            follows.append(obj.follow_user)
+        return Post.objects.filter(author__in=follows).order_by('-date_posted')
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post

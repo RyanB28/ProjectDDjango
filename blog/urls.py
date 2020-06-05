@@ -9,6 +9,7 @@ from .views import (
     FollowsListView,
     FollowersListView)
 from blog.views import ImportantPostCreateView
+from blog.views import ImportantListView
 
 urlpatterns = [
     path('', PostListView.as_view(), name='blog-home'),
@@ -20,4 +21,5 @@ urlpatterns = [
     path('user/<str:username>/follows', FollowsListView.as_view(), name='user-follows'),
     path('user/<str:username>/followers', FollowersListView.as_view(), name='user-followers'),
     path('importantpost/new', ImportantPostCreateView.as_view(), name='import-post'),
+    path('importantpost/create', ImportantListView.as_view(), name = 'import-msg'),
 ]

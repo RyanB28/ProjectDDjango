@@ -1,10 +1,15 @@
 {
   "ExpandedNodes": [
     "",
+    "\\blog",
+    "\\blog\\migrations",
+    "\\blog\\static",
+    "\\blog\\static\\blog",
+    "\\blog\\templates",
     "\\dashboard",
     "\\dashboard\\migrations",
     "\\LoginScreen"
   ],
-  "SelectedNode": "\\dashboard\\migrations",
+  "SelectedNode": "\\blog\\forms.py",
   "PreviewInSolutionExplorer": false
 }
