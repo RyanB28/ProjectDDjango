@@ -16,7 +16,7 @@ def is_users(post_user, logged_user):
     return post_user == logged_user
 
 
-PAGINATION_COUNT = 4
+PAGINATION_COUNT = 5
 
 
 class PostListView(LoginRequiredMixin, ListView):
@@ -38,6 +38,7 @@ class PostListView(LoginRequiredMixin, ListView):
             all_users.append(User.objects.filter(pk=aux['author']).first())
 
         data['all_users'] = all_users
+        data['all_belangrijk'] = Belangrijkbericht.objects.order_by('-date_posted')
         print(all_users, file=sys.stderr)
         return data
 
