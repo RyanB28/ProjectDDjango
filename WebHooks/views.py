@@ -43,10 +43,21 @@ def getResonse(IntentName):
             BirthDaytoday = []
             ToDay = datetime.datetime.today()
             for item in AllUser:
-                if(item.month == ToDay.month):
+                if(item.BirthDay.month == ToDay.month):
                     BirthDaytoday.append(item.Name)
-            result = "Deze maand zijn er {len(BirthDaytoday)} mensen jarig, deze mensen zijn jarig: "
+            result = "Deze maand zijn er {len(BirthDaytoday)} mensen jarig, deze mensen zijn jarig "
             for name in BirthDaytoday:
+                result = result + name + " " 
+            return result
+        if("Is_er_vandaag_iets_bijzonders" == IntentName):
+            All = BlogModels.Belangrijkbericht.objects.all()
+            ImportantPostToday = []
+            ToDay = datetime.datetime.today()
+            for item in All:
+                if(item.date_posted.day == ToDay.day):
+                    ImportantPostToday.append(item.content)
+            result = "Vandaag is er {0} belangrijke berichten, dit zijn ze ".format(len(ImportantPostToday))
+            for name in ImportantPostToday:
                 result = result + name + " " 
             return result
     return "Something went wrong!"
