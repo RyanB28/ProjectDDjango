@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Post, Comment
+from blog.models import Belangrijkbericht, Comment, Post
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('author', 'content', )
@@ -11,3 +11,4 @@ class CommentAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(Belangrijkbericht)
