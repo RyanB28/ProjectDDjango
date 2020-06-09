@@ -27,7 +27,7 @@ def profile(request):
         if uform.is_valid() and pform.is_valid():
             uform.save()
             pform.save()
-            messages.success(request, f'Je account is geupdate!')
+            messages.success(request, f'Profiel is gewijzigd')
             return redirect('profile')
     else:
         uform = UserUpdateForm(instance=request.user)
