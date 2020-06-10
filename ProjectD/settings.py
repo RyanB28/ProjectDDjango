@@ -17,7 +17,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # PWA Service working wordt hier aangegeven
-PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'blog/static/blog/js', 'serviceworker.js')
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'ProjectD/static/js', 'serviceworker.js')
 
 # Quick-start development  - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/

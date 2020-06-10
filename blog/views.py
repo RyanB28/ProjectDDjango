@@ -16,7 +16,7 @@ def is_users(post_user, logged_user):
     return post_user == logged_user
 
 def base_layout(request):
-	template='blog/home.html'
+	template='blog/base.html'
 	return render(request,template)
 
 
