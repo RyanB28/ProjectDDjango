@@ -10,34 +10,10 @@ from .forms import NewCommentForm
 from .forms import NewPostForm
 from .forms import ImportantForm
 from taggit.models import Tag
-from django.core import serializers
-from django.http import HttpResponse
-import json
 
 
 def is_users(post_user, logged_user):
     return post_user == logged_user
-
-def base_layout(request):
-	template='blog/base.html'
-	return render(request,template)
-
-def getdata(request):
-    # results1 = all_users = []
-    # data_counter = Post.objects.values('author')\
-    #     .annotate(author_count=Count('author'))\
-    #     .order_by('-author_count')[:6]
- 
-    # for aux in data_counter:
-    #     all_users.append(User.objects.filter(pk=aux['author']).first())
- 
-    # results2 = Belangrijkbericht.objects.order_by('-date_posted')
-    # jsondata1 = serializers.serialize('json',results1)
-    # jsondata2 = serializers.serialize('json',results2)
-    # jsondata = json.dumps([jsondata1, jsondata2])
-    results=Post.objects.all()
-    jsondata = serializers.serialize('json',results)
-    return HttpResponse(jsondata)
 
 PAGINATION_COUNT = 5
 
