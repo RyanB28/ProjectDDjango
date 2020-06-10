@@ -8,7 +8,7 @@ from taggit.managers import TaggableManager
 class Post(models.Model):
     title = models.CharField(max_length=250)
     content = models.TextField(max_length=1000)
-    categorie = models.TextField(max_length=100)
+    categorie = models.TextField(max_length=100, null=True)
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     tags = TaggableManager()
@@ -19,6 +19,21 @@ class Post(models.Model):
     @property
     def number_of_comments(self):
         return Comment.objects.filter(post_connected=self).count()
+
+class Belangrijkbericht(models.Model):
+    content = models.TextField(max_length=1000)
+    categorie = models.TextField(max_length=100, null=True)
+    date_posted = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    tags = TaggableManager()
+
+    def __str__(self):
+        return self.author.username + ": " + self.content
+
+    @property
+    def number_of_comments(self):
+        return Comment.objects.filter(post_connected=self).count()
+
 
 
 class Comment(models.Model):

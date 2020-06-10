@@ -25,11 +25,10 @@ SECRET_KEY = 'm)u-+b^-7#tc^$w#6pcr5&-=)j3)u&jpvaypllf#s$4g*ck6c5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["145.24.222.132", "127.0.0.1"]
+ALLOWED_HOSTS = ["145.24.222.132", "127.0.0.1", "a9a86d0128b9.ngrok.io"]
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
+    'WebHooks.apps.WebhooksConfig',
     'crispy_forms',
     "taggit",
 ]
@@ -135,3 +135,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'blog-home'
 LOGIN_URL = 'login'
+
+
+CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SECURE = False

@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from blog.models import Post, Comment
-from users.models import Follow, Profile
+from blog.models import Belangrijkbericht, Comment, Post
+from users.models import Profile
 import sys
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Count
 from .forms import NewCommentForm
 from .forms import NewPostForm
+from .forms import ImportantForm
 from taggit.models import Tag
 
 
@@ -15,7 +16,7 @@ def is_users(post_user, logged_user):
     return post_user == logged_user
 
 
-PAGINATION_COUNT = 3
+PAGINATION_COUNT = 5
 
 
 class PostListView(LoginRequiredMixin, ListView):
@@ -37,16 +38,9 @@ class PostListView(LoginRequiredMixin, ListView):
             all_users.append(User.objects.filter(pk=aux['author']).first())
 
         data['all_users'] = all_users
+        data['all_belangrijk'] = Belangrijkbericht.objects.order_by('-date_posted')
         print(all_users, file=sys.stderr)
         return data
-
-    def get_queryset(self):
-        user = self.request.user
-        qs = Follow.objects.filter(user=user)
-        follows = [user]
-        for obj in qs:
-            follows.append(obj.follow_user)
-        return Post.objects.filter(author__in=follows).order_by('-date_posted')
 
 class TagListView(LoginRequiredMixin, ListView):
     model = Post
@@ -94,36 +88,14 @@ class UserPostListView(LoginRequiredMixin, ListView):
         logged_user = self.request.user
         print(logged_user.username == '', file=sys.stderr)
 
-        if logged_user.username == '' or logged_user is None:
-            can_follow = False
-        else:
-            can_follow = (Follow.objects.filter(user=logged_user,
-                                                follow_user=visible_user).count() == 0)
         data = super().get_context_data(**kwargs)
 
         data['user_profile'] = visible_user
-        data['can_follow'] = can_follow
         return data
 
     def get_queryset(self):
         user = self.visible_user()
         return Post.objects.filter(author=user).order_by('-date_posted')
-
-    def post(self, request, *args, **kwargs):
-        if request.user.id is not None:
-            follows_between = Follow.objects.filter(user=request.user,
-                                                    follow_user=self.visible_user())
-
-            if 'follow' in request.POST:
-                    new_relation = Follow(user=request.user, follow_user=self.visible_user())
-                    if follows_between.count() == 0:
-                        new_relation.save()
-            elif 'unfollow' in request.POST:
-                    if follows_between.count() > 0:
-                        follows_between.delete()
-
-        return self.get(self, request, *args, **kwargs)
-
 
 class PostDetailView(DetailView):
     model = Post
@@ -171,8 +143,24 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         data['tag_line'] = 'Plaats een nieuwe post'
         return data
 
-        return self.get(self, request, *args, **kwargs)
 
+class ImportantPostCreateView(LoginRequiredMixin, CreateView):
+    model = Belangrijkbericht
+    fields = ['content','tags']
+    template_name = 'blog/post_important.html'
+    success_url = '/'
+
+    def view_message(self, request):
+            return render (request, "post_important.html")
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        data['tag_line'] = 'Plaats een belangrijk bericht'
+        return data
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
@@ -190,40 +178,4 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         data['tag_line'] = 'Wijzig een post'
-        return data
-
-
-class FollowsListView(ListView):
-    model = Follow
-    template_name = 'blog/follow.html'
-    context_object_name = 'follows'
-
-    def visible_user(self):
-        return get_object_or_404(User, username=self.kwargs.get('username'))
-
-    def get_queryset(self):
-        user = self.visible_user()
-        return Follow.objects.filter(user=user).order_by('-date')
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data['follow'] = 'follows'
-        return data
-
-
-class FollowersListView(ListView):
-    model = Follow
-    template_name = 'blog/follow.html'
-    context_object_name = 'follows'
-
-    def visible_user(self):
-        return get_object_or_404(User, username=self.kwargs.get('username'))
-
-    def get_queryset(self):
-        user = self.visible_user()
-        return Follow.objects.filter(follow_user=user).order_by('-date')
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data['follow'] = 'followers'
         return data

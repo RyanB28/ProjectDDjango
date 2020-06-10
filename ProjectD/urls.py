@@ -22,7 +22,7 @@ from users import views as users_views
 from users import classes as overrideclasses
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name="AdminPage"),
     path('login/', overrideclasses.OverrideLogin
          .as_view(template_name='users/login.html'), name='login'),  # class based views (
     # without templates
@@ -39,6 +39,7 @@ urlpatterns = [
     path('register/', users_views.register, name='register-users'),
     path('profile/', users_views.profile, name='profile'),
     path('search/', users_views.SearchView, name='search'),
+    path('WebHooks/', include('WebHooks.urls')),
     path('', include('blog.urls')),
 ]
 
