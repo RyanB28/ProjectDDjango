@@ -7,8 +7,7 @@ from .views import (
     PostDeleteView,
     UserPostListView,
     ImportantPostCreateView,
-    TagListView,
-    base_layout)
+    TagListView)
 
 urlpatterns = [
     path('', PostListView.as_view(), name='blog-home'),
@@ -19,5 +18,5 @@ urlpatterns = [
     path('post/<int:pk>/del/', PostDeleteView.as_view(), name='post-delete'),
     path('importantpost/new', ImportantPostCreateView.as_view(), name='import-post'),
     path('tag/<slug:slug>/', TagListView.as_view(), name='tagged'),
-    path('base_layout', base_layout, name='base_layout')
+    path('base_layout', PostListView.as_view(), name='base_layout'),
 ]

@@ -11,17 +11,10 @@ from .forms import NewPostForm
 from .forms import ImportantForm
 from taggit.models import Tag
 
-
 def is_users(post_user, logged_user):
     return post_user == logged_user
 
-def base_layout(request):
-	template='blog/base.html'
-	return render(request,template)
-
-
 PAGINATION_COUNT = 5
-
 
 class PostListView(LoginRequiredMixin, ListView):
     model = Post
