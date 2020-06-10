@@ -23,14 +23,14 @@ PWA_APP_NAME = 'Meldkamer App'
 PWA_APP_DESCRIPTION = "Meldkamer communicatie app"
 PWA_APP_ICONS = [
     {
-        'src': '/blog/static/blog/logo.png',
-        'sizes': '160x160'
+        'src': 'static/blog/logo.png',
+        'sizes': '260x246'
     }
 ]
 PWA_APP_ICONS_APPLE = [
     {
-        'src': '/blog/static/blog/logo.png',
-        'sizes': '160x160'
+        'src': 'static/blog/logo.png',
+        'sizes': '260x246'
     }
 ]
 
