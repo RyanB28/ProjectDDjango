@@ -3,13 +3,13 @@
 {% block content %}
 <div class="row">
     <div class="col-12 col-md-3 pr-4 dont-move">
-        <div class="profile-section">
+        <div class="profile-section" style="padding: 10px">
             <h3 class="white-important p-2">
                 Profiel
             </h3>
             <article class="media content-section" style="height: 140px; width: 100%">
                 {%  if user_profile != None %}
-                <div class="mt-2 d-flex full-width align-items-center">
+                <div class="mt-2 d-flex full-width align-items-center" style="margin:10px">
                     <img class="rounded-circle mr-3 img-fluid"
                          style="width: 90px; height: 90px;"
                          src="{{ user_profile.profile.image.url }}">
