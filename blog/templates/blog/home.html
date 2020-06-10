@@ -7,7 +7,7 @@
             <h3 class="white-important p-2">
                 Profiel
             </h3>
-            <article class="media content-section" style="height: 140px; width: 100%">
+            <article class="content-section" style="height: 140px; width: 100%">
                 {%  if user_profile != None %}
                 <div class="mt-2 d-flex full-width align-items-center" style="margin:10px">
                     <img class="rounded-circle mr-3 img-fluid"
@@ -43,7 +43,7 @@
                 </div>
                 {%  endif %}
 
-            <div class="d-flex">
+            <div class="d-flex" style="margin:10px">
                 {% if user_profile is None %}
                 <div style="margin-left: 40px">
                     <a class="btn btn-sm btn-outline-primary mb-4 mr-3 " href="{% url 'post-create' %}">
@@ -169,8 +169,6 @@
     <div class="no-padding">
         <h6 style="position: absolute; bottom: 0; right: 0"
             class="white-important mb-3">
-            {{ page_obj.start_index }} - {{ page_obj.end_index }} of
-            {{ paginator.count }}
         </h6>
         {% for bericht in all_belangrijk %}
         <article class="media content-section hovered-tweet">
