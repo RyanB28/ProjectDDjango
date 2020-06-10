@@ -19,6 +19,21 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # PWA Service working wordt hier aangegeven
 PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'blog/static/js', 'serviceworker.js')
 
+PWA_APP_NAME = 'Meldkamer App'
+PWA_APP_DESCRIPTION = "Meldkamer communicatie app"
+PWA_APP_ICONS = [
+    {
+        'src': '/blog/static/blog/logo.png',
+        'sizes': '160x160'
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': '/blog/static/blog/logo.png',
+        'sizes': '160x160'
+    }
+]
+
 # Quick-start development  - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
