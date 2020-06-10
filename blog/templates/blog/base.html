@@ -12,7 +12,7 @@
         <link rel="icon" type="image/png" href="{% static 'blog/logo.png' %}">
         <title>Dashboard</title>
     </head>
-  <body>
+  <body style="background-color:#16599c">
       <header class="site-header">
       <nav
               style="border-bottom: 1px solid rgba(255, 255, 255, 0.1)"
@@ -29,7 +29,7 @@
                     {%if user.is_staff %}
                     <a class="nav-item nav-link" href="{% url 'import-post' %}">Belangrijk bericht</a>
                     {% endif %}
-                    {% if user.is_superuser %}s
+                    {% if user.is_superuser %}
                       <a class="nav-item nav-link" href="https://projectdmeldkamertest.nl/admin">Administratie</a>
                     {% endif%}
                     <a class="nav-item nav-link" href="{% url 'logout' %}">Uitloggen</a>
