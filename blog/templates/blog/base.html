@@ -28,6 +28,7 @@
                     <a class="nav-item nav-link" href="{% url 'profile' %}">Settings</a>
                     {% if user.is_superuser %}
                       <a class="nav-item nav-link" href="{% url 'import-post' %}">Belangrijk bericht</a>
+                      <a class="nav-item nav-link" href="{% url 'AdminPage' %}">Administratie</a>
                     {% endif%}
                     <a class="nav-item nav-link" href="{% url 'logout' %}">Uitloggen</a>
                 {% else %}

@@ -22,7 +22,7 @@ from users import views as users_views
 from users import classes as overrideclasses
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name="AdminPage"),
     path('login/', overrideclasses.OverrideLogin
          .as_view(template_name='users/login.html'), name='login'),  # class based views (
     # without templates
